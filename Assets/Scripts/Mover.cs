@@ -5,19 +5,31 @@ using UnityEngine.AI;
 
 public class Mover : MonoBehaviour
 {
+	private const string FORWARD_SPEED = "forwardSpeed";
 	[SerializeField] private Transform target;
 	private NavMeshAgent navMeshAgent;
+	private Animator animator;
 
 	private void Start()
 	{
 		navMeshAgent = GetComponent<NavMeshAgent>();
+		animator = GetComponent<Animator>();
 	}
 
 	private void Update()
 	{
-		if (Input.GetMouseButtonDown(0)) {
+		if (Input.GetMouseButton(0)) {
 			MoveToCursor();
 		}
+		UpdateAnimator();
+	}
+
+	private void UpdateAnimator()
+	{
+		Vector3 velocity = navMeshAgent.velocity;
+		Vector3 localVelocity = transform.InverseTransformDirection(velocity);
+		float speed = localVelocity.z;
+		animator.SetFloat(FORWARD_SPEED, speed);
 	}
 
 	private void MoveToCursor()
