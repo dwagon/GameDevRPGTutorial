@@ -4,6 +4,7 @@ using UnityEngine;
 
 using RPG.Movement;
 using RPG.Combat;
+using Unity.VisualScripting.Antlr3.Runtime.Collections;
 
 namespace RPG.Control
 {
@@ -33,7 +34,7 @@ namespace RPG.Control
 		{
 			RaycastHit[] hits = Physics.RaycastAll(GetMouseRay());
 			foreach (RaycastHit hit in hits) {
-				if(hit.transform.TryGetComponent<CombatTarget>(out CombatTarget target)) {
+				if (hit.transform.TryGetComponent<CombatTarget>(out CombatTarget target)) {
 					if (Input.GetMouseButtonDown(0)) {
 						fighter.Attack(target);
 					}
