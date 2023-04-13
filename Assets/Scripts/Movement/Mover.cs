@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem.HID;
+using RPG.Combat;
 
 namespace RPG.Movement {
 	public class Mover : MonoBehaviour
@@ -31,9 +32,21 @@ namespace RPG.Movement {
 			animator.SetFloat(FORWARD_SPEED, speed);
 		}
 
+		public void StartMoveAction(Vector3 destination)
+		{
+			GetComponent<Fighter>().Cancel();
+			MoveTo(destination);
+		}
+
 		public void MoveTo(Vector3 destination)
 		{
 			navMeshAgent.destination = destination;
+			navMeshAgent.isStopped = false;
+		}
+
+		public void Stop()
+		{
+			navMeshAgent.isStopped = true;
 		}
 	}
 }
