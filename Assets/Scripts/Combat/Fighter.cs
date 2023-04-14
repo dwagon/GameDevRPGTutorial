@@ -10,7 +10,8 @@ namespace RPG.Combat
 	public class Fighter : MonoBehaviour, IAction
 	{
 		private const string ATTACK_TRIGGER = "attack";
-		Transform target;
+		private const string STOP_ATTACK_TRIGGER = "stopAttack";
+		Health target;
 		[SerializeField] float weaponRange;
 		[SerializeField] float timeBetweenAttacks;
 		[SerializeField] float weaponDamage;
@@ -32,27 +33,31 @@ namespace RPG.Combat
 			if (target == null) {
 				return;
 			}
+			if(!target.IsAlive()) {
+				return;
+			}
 			if (GetIsInRange()) {
 				mover.Cancel();
 				AttackBehaviour();
 			} else {
-				mover.MoveTo(target.position);
+				mover.MoveTo(target.transform.position);
 			}
 		}
 
 		private bool GetIsInRange()
 		{
-			return Vector3.Distance(transform.position, target.position) < weaponRange;
+			return Vector3.Distance(transform.position, target.transform.position) < weaponRange;
 		}
 
 		public void Attack(CombatTarget combatTarget)
 		{
 			actionScheduler.StartAction(this);
-			target = combatTarget.transform;
+			target = combatTarget.GetComponent<Health>();
 		}
 
 		public void Cancel()
 		{
+			animator.SetTrigger(STOP_ATTACK_TRIGGER);
 			target = null;
 		}
 
@@ -73,7 +78,7 @@ namespace RPG.Combat
 		private void Hit()
 		{
 			if (target != null) {
-				target.GetComponent<Health>().TakeDamage(weaponDamage);
+				target.TakeDamage(weaponDamage);
 			}
 		}
 	}

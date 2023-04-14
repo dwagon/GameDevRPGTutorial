@@ -13,10 +13,15 @@ namespace RPG.Combat {
 		{
 			isAlive = true;
 		}
+
+		public bool IsAlive()
+		{
+			return isAlive;
+		}
+
 		public void TakeDamage(float damage)
 		{
 			healthPoints -= damage;
-			Debug.Log("health of " + gameObject.name + " = " + healthPoints);
 			if(healthPoints <=0) {
 				healthPoints = 0;
 				if (isAlive) {
