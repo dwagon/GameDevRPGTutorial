@@ -13,6 +13,7 @@ namespace RPG.Combat
 		Transform target;
 		[SerializeField] float weaponRange;
 		[SerializeField] float timeBetweenAttacks;
+		[SerializeField] float weaponDamage;
 		private float timeSinceLastAttack = Mathf.Infinity;
 		Mover mover;
 		Animator animator;
@@ -71,7 +72,9 @@ namespace RPG.Combat
 		// Triggered by animation
 		private void Hit()
 		{
-
+			if (target != null) {
+				target.GetComponent<Health>().TakeDamage(weaponDamage);
+			}
 		}
 	}
 }
