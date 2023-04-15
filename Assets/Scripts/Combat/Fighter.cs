@@ -72,6 +72,7 @@ namespace RPG.Combat
 		public void Cancel()
 		{
 			animator.SetTrigger(STOP_ATTACK_TRIGGER);
+			animator.ResetTrigger(ATTACK_TRIGGER);
 			target = null;
 		}
 
@@ -86,6 +87,7 @@ namespace RPG.Combat
 
 		private void TriggerAttack()
 		{
+			animator.ResetTrigger(STOP_ATTACK_TRIGGER);
 			animator.SetTrigger(ATTACK_TRIGGER);
 		}
 
