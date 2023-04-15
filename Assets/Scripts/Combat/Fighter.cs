@@ -49,10 +49,24 @@ namespace RPG.Combat
 			return Vector3.Distance(transform.position, target.transform.position) < weaponRange;
 		}
 
+		public bool CanAttack(CombatTarget combatTarget)
+		{
+			if (combatTarget == null) {
+				return false;
+			}
+			Health combatTargetHealth = combatTarget.GetComponent<Health>();
+
+			if(combatTargetHealth!= null && !combatTargetHealth.IsAlive()) {
+				return false;
+			}
+			return true;
+		}
+
 		public void Attack(CombatTarget combatTarget)
 		{
 			actionScheduler.StartAction(this);
 			target = combatTarget.GetComponent<Health>();
+
 		}
 
 		public void Cancel()
@@ -63,6 +77,7 @@ namespace RPG.Combat
 
 		private void AttackBehaviour()
 		{
+			transform.LookAt(target.transform);
 			if (timeSinceLastAttack > timeBetweenAttacks) {
 				TriggerAttack();
 				timeSinceLastAttack = 0;
