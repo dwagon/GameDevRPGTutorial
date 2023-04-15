@@ -4,7 +4,7 @@ using UnityEngine;
 
 using RPG.Movement;
 using RPG.Combat;
-using Unity.VisualScripting.Antlr3.Runtime.Collections;
+using RPG.Core;
 
 namespace RPG.Control
 {
@@ -13,15 +13,20 @@ namespace RPG.Control
 		[SerializeField] GameObject player;
 		private Mover mover;
 		private Fighter fighter;
+		private Health health;
 
 		private void Start()
 		{
 			mover = GetComponent<Mover>();
 			fighter = GetComponent<Fighter>();
+			health = GetComponent<Health>();
 		}
 
 		private void Update()
 		{
+			if(!health.IsAlive()) {
+				return;
+			}
 			if(InteractWithCombat()) {
 				return;
 			};
