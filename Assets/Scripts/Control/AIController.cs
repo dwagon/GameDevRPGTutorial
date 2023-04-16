@@ -14,8 +14,11 @@ namespace RPG.Control {
 		private Fighter fighter;
 		private Health health;
 		private Mover mover;
+		private ActionScheduler actionScheduler;
 
 		Vector3 guardPosition;
+		float timeSinceLastSawPlayer = Mathf.Infinity;
+		[SerializeField] float suspicionTime;
 
 		private void Start()
 		{
@@ -24,6 +27,7 @@ namespace RPG.Control {
 			fighter = GetComponent<Fighter>();
 			health = GetComponent<Health>();
 			mover = GetComponent<Mover>();
+			actionScheduler = GetComponent<ActionScheduler>();
 		}
 
 		private void Update()
@@ -32,11 +36,31 @@ namespace RPG.Control {
 				return;
 			}
 			if (InAttackRangeOfPlayer() && fighter.CanAttack(player)) {
-				fighter.Attack(player);
+				timeSinceLastSawPlayer = 0f;
+				AttackBehaviour();
+			}
+			else if (timeSinceLastSawPlayer < suspicionTime) {
+				SuspicionBehaviour();
 			}
 			else {
-				mover.StartMoveAction(guardPosition);
+				GuardBehaviour();
 			}
+			timeSinceLastSawPlayer += Time.deltaTime;
+		}
+
+		private void AttackBehaviour()
+		{
+			fighter.Attack(player);
+		}
+
+		private void GuardBehaviour()
+		{
+			mover.StartMoveAction(guardPosition);
+		}
+
+		private void SuspicionBehaviour()
+		{
+			actionScheduler.CancelCurrentAction();
 		}
 
 		private bool InAttackRangeOfPlayer()
