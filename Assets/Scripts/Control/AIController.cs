@@ -18,9 +18,11 @@ namespace RPG.Control {
 
 		Vector3 guardPosition;
 		float timeSinceLastSawPlayer = Mathf.Infinity;
+		float timeSinceLastArrivedAtWaypoint = Mathf.Infinity;
 		private int currentWaypointIndex;
 		[SerializeField] float suspicionTime;
 		[SerializeField] PatrolPath patrolPath;
+		[SerializeField] float waypointDwellTime = 2f;
 		private float waypointTolerance = 0.5f;
 
 		private void Start()
@@ -49,7 +51,13 @@ namespace RPG.Control {
 			else {
 				PatrolBehaviour();
 			}
+			UpdateTimers();
+		}
+
+		private void UpdateTimers()
+		{
 			timeSinceLastSawPlayer += Time.deltaTime;
+			timeSinceLastArrivedAtWaypoint += Time.deltaTime;
 		}
 
 		private void AttackBehaviour()
@@ -63,10 +71,13 @@ namespace RPG.Control {
 			if (patrolPath != null) {
 				if (AtWaypoint()) {
 					CycleWaypoint();
+					timeSinceLastArrivedAtWaypoint = 0f;
 				}
 				nextPosition = GetCurrentWaypoint();
 			}
-			mover.StartMoveAction(nextPosition);
+			if (timeSinceLastArrivedAtWaypoint > waypointDwellTime) {
+				mover.StartMoveAction(nextPosition);
+			}
 		}
 
 		private bool AtWaypoint()
