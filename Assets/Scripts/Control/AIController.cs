@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using RPG.Combat;
+using RPG.Movement;
 using RPG.Core;
 
 namespace RPG.Control {
@@ -12,13 +13,17 @@ namespace RPG.Control {
 		private GameObject player;
 		private Fighter fighter;
 		private Health health;
+		private Mover mover;
 
+		Vector3 guardPosition;
 
 		private void Start()
 		{
+			guardPosition = transform.position;
 			player = GameObject.FindWithTag(PLAYER_TAG);
 			fighter = GetComponent<Fighter>();
 			health = GetComponent<Health>();
+			mover = GetComponent<Mover>();
 		}
 
 		private void Update()
@@ -30,7 +35,7 @@ namespace RPG.Control {
 				fighter.Attack(player);
 			}
 			else {
-				fighter.Cancel();
+				mover.StartMoveAction(guardPosition);
 			}
 		}
 
@@ -41,6 +46,13 @@ namespace RPG.Control {
 				return true;
 			}
 			return false;
+		}
+
+		// Called by Unity
+		private void OnDrawGizmosSelected()
+		{
+			Gizmos.color = Color.blue;
+			Gizmos.DrawWireSphere(transform.position, chaseDistance);
 		}
 	}
 }
