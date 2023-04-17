@@ -10,6 +10,8 @@ namespace RPG.Control {
 	{
 		private const string PLAYER_TAG = "Player";
 		[SerializeField] float chaseDistance = 5f;
+		[Range(0,1)]
+		[SerializeField] float patrolSpeedFraction = 0.3f;
 		private GameObject player;
 		private Fighter fighter;
 		private Health health;
@@ -76,7 +78,7 @@ namespace RPG.Control {
 				nextPosition = GetCurrentWaypoint();
 			}
 			if (timeSinceLastArrivedAtWaypoint > waypointDwellTime) {
-				mover.StartMoveAction(nextPosition);
+				mover.StartMoveAction(nextPosition, patrolSpeedFraction);
 			}
 		}
 

@@ -40,7 +40,8 @@ namespace RPG.Combat
 				mover.Cancel();
 				AttackBehaviour();
 			} else {
-				mover.MoveTo(target.transform.position);
+				float fullSpeed = 1.0f;
+				mover.MoveTo(target.transform.position, fullSpeed);
 			}
 		}
 
