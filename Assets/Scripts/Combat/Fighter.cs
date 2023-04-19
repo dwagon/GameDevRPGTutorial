@@ -75,6 +75,7 @@ namespace RPG.Combat
 			animator.SetTrigger(STOP_ATTACK_TRIGGER);
 			animator.ResetTrigger(ATTACK_TRIGGER);
 			target = null;
+			mover.Cancel();
 		}
 
 		private void AttackBehaviour()
