@@ -4,9 +4,10 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem.HID;
 using RPG.Core;
+using RPG.Saving;
 
 namespace RPG.Movement {
-	public class Mover : MonoBehaviour, IAction
+	public class Mover : MonoBehaviour, IAction, ISaveable
 	{
 		private const string FORWARD_SPEED = "forwardSpeed";
 		[SerializeField] private Transform target;
@@ -55,5 +56,20 @@ namespace RPG.Movement {
 		{
 			navMeshAgent.isStopped = true;
 		}
+
+		public object CaptureState()
+		{
+			return new SerializableVector3(transform.position);
+		}
+
+		public void RestoreState(object state)
+		{
+			SerializableVector3 position = (SerializableVector3)state;
+			navMeshAgent.enabled = false;
+			transform.position = position.ToVector();
+			navMeshAgent.enabled = true;
+			GetComponent<ActionScheduler>().CancelCurrentAction();
+		}
+		
 	}
 }

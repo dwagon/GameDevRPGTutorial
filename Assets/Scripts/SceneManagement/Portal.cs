@@ -15,8 +15,8 @@ namespace RPG.SceneManagement {
 		[SerializeField] int sceneToLoad = -1;
 		[SerializeField] Transform spawnPoint;
 		[SerializeField] DestinationIdentifier destination;
-		[SerializeField] float fadeOutTime = 1f;
-		[SerializeField] float fadeInTime = 2f;
+		[SerializeField] float fadeOutTime = 0.5f;
+		[SerializeField] float fadeInTime = 1f;
 		[SerializeField] float fadeWaitTime = 0.5f;
 
 		private void OnTriggerEnter(Collider other)
@@ -27,7 +27,6 @@ namespace RPG.SceneManagement {
 
 		private IEnumerator Transition()
 		{
-			Debug.Log("Scene to load " + sceneToLoad);
 			if(sceneToLoad < 0) {
 				Debug.LogError("Scene to load not set");
 				yield break;
