@@ -3578,7 +3578,7 @@ PrefabInstance:
     - target: {fileID: 2008095450350183111, guid: 42e357a2afff04f8fa31ea4994a58fed, type: 3}
       propertyPath: weaponPrefab
       value: 
-      objectReference: {fileID: 8155128556527607180, guid: 572eb2af94c714384af22abd5cc9363b, type: 3}
+      objectReference: {fileID: 4180575983397678150, guid: 1e60bb91c15454531b43f1cd11bbf5f9, type: 3}
     - target: {fileID: 2008095450350183111, guid: 42e357a2afff04f8fa31ea4994a58fed, type: 3}
       propertyPath: handTransform
       value: 
