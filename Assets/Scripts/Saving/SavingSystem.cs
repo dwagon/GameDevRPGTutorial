@@ -8,13 +8,15 @@ using UnityEngine.SceneManagement;
 namespace RPG.Saving {
 	public class SavingSystem : MonoBehaviour
 	{
+		private const string LAST_SCENE_INDEX = "lastSceneBuildIndex";
+		
 		public IEnumerator LoadLastScene(string saveFile)
 		{
 			Dictionary<string, object> state = LoadFile(saveFile);
 			int buildIndex = SceneManager.GetActiveScene().buildIndex;
-			if (state.ContainsKey("lastSceneBuildIndex"))
+			if (state.ContainsKey(LAST_SCENE_INDEX))
 			{
-				buildIndex = (int)state["lastSceneBuildIndex"];
+				buildIndex = (int)state[LAST_SCENE_INDEX];
 			}
 
 			yield return SceneManager.LoadSceneAsync(buildIndex);
@@ -76,7 +78,7 @@ namespace RPG.Saving {
 			foreach (SaveableEntity saveable in FindObjectsOfType<SaveableEntity>()) {
 				state[saveable.GetUniqueIdentifier()] = saveable.CaptureState();
 			}
-			state["lastSceneBuildIndex"] = SceneManager.GetActiveScene().buildIndex;
+			state[LAST_SCENE_INDEX] = SceneManager.GetActiveScene().buildIndex;
 		}
 
 		private void RestoreState(Dictionary<string, object> state)

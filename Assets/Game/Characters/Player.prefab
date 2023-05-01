@@ -61,6 +61,11 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 3f6fc0cf5e5d31c458bc74ede87cb8ae, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 679ff741e12a7e740819ede24a7000b7, type: 3}
+--- !u!4 &897984349755752759 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 461188, guid: 679ff741e12a7e740819ede24a7000b7, type: 3}
+  m_PrefabInstance: {fileID: 897984349755558067}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1177684277913467912
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -72,6 +77,14 @@ PrefabInstance:
       propertyPath: weaponRange
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5492261027905362433, guid: 48a7fa553e42648c9b558622970030fb, type: 3}
+      propertyPath: weaponPrefab
+      value: 
+      objectReference: {fileID: 8155128556527607180, guid: 572eb2af94c714384af22abd5cc9363b, type: 3}
+    - target: {fileID: 5492261027905362433, guid: 48a7fa553e42648c9b558622970030fb, type: 3}
+      propertyPath: handTransform
+      value: 
+      objectReference: {fileID: 897984349755752759}
     - target: {fileID: 5751299245976821060, guid: 48a7fa553e42648c9b558622970030fb, type: 3}
       propertyPath: m_Name
       value: Player
@@ -123,6 +136,10 @@ PrefabInstance:
     - target: {fileID: 5801365973756202161, guid: 48a7fa553e42648c9b558622970030fb, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7637849304409877061, guid: 48a7fa553e42648c9b558622970030fb, type: 3}
+      propertyPath: uniqueIdentifier
+      value: player
       objectReference: {fileID: 0}
     - target: {fileID: 9215539874143787200, guid: 48a7fa553e42648c9b558622970030fb, type: 3}
       propertyPath: m_Materials.Array.data[0]
