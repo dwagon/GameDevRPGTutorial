@@ -8,7 +8,7 @@ namespace RPG.SceneManagement
 {
     public class SavingWrapper : MonoBehaviour
     {
-        private const string currentSaveKey = "currentSaveName";
+        private const string CurrentSaveKey = "currentSaveName";
         [SerializeField] private float fadeInTime = 0.2f;
         [SerializeField] private float fadeOutTime = 0.2f;
         [SerializeField] private int firstLevelBuildIndex = 1;
@@ -25,11 +25,6 @@ namespace RPG.SceneManagement
             }
         }
 
-        private void Start()
-        {
-            // ContinueGame();
-        }
-
         public void Load()
         {
             GetComponent<SavingSystem>().Load(GetCurrentSave());
@@ -42,7 +37,7 @@ namespace RPG.SceneManagement
 
         private string GetCurrentSave()
         {
-            return PlayerPrefs.GetString(currentSaveKey, "save");
+            return PlayerPrefs.GetString(CurrentSaveKey, "save");
         }
 
         public void ContinueGame()

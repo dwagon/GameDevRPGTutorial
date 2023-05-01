@@ -57,6 +57,8 @@ namespace RPG.Saving {
 			if(!File.Exists(path)) {
 				return new Dictionary<string, object>();
 			}
+
+			print("Loading from " + path);
 			using (FileStream stream = File.Open(path, FileMode.Open)) {
 				BinaryFormatter formatter = new BinaryFormatter();
 				return (Dictionary<string, object>)formatter.Deserialize(stream);
