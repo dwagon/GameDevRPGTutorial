@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using RPG.Movement;
 using RPG.Core;
+using UnityEngine.Serialization;
 
 namespace RPG.Combat
 {
@@ -11,47 +12,50 @@ namespace RPG.Combat
 	{
 		private const string ATTACK_TRIGGER = "attack";
 		private const string STOP_ATTACK_TRIGGER = "stopAttack";
-		Health target;
-		[SerializeField] float weaponRange;
 		[SerializeField] float timeBetweenAttacks;
-		[SerializeField] float weaponDamage;
 		[SerializeField] private Transform handTransform = null;
-		[SerializeField] private WeaponSO weapon = null;
-		private float timeSinceLastAttack = Mathf.Infinity;
-		Mover mover;
-		Animator animator;
-		ActionScheduler actionScheduler;
-		
+		[FormerlySerializedAs("weapon")] [SerializeField] private WeaponSO defaultWeapon = null;
+		Health _target;
+		private float _timeSinceLastAttack = Mathf.Infinity;
+
+		private WeaponSO currentWeapon = null;
+
 		private void Start()
 		{
-			mover = GetComponent<Mover>();
-			actionScheduler = GetComponent<ActionScheduler>();
-			animator = GetComponent<Animator>();
-			
-			SpawnWeapon();
+			EquipWeapon(defaultWeapon);
 		}
 
 		private void Update()
 		{
-			timeSinceLastAttack += Time.deltaTime;
-			if (target == null) {
+			_timeSinceLastAttack += Time.deltaTime;
+			if (_target == null) {
 				return;
 			}
-			if(!target.IsAlive()) {
+			Debug.Log(this.name + ": Target =" + _target.name);
+			if(!_target.IsAlive()) {
+				Debug.Log(this.name + ": Target is dead");
 				return;
 			}
 			if (GetIsInRange()) {
-				mover.Cancel();
+				GetComponent<Mover>().Cancel();
 				AttackBehaviour();
 			} else {
 				float fullSpeed = 1.0f;
-				mover.MoveTo(target.transform.position, fullSpeed);
+				GetComponent<Mover>().MoveTo(_target.transform.position, fullSpeed);
 			}
+		}
+
+		public void Cancel()
+		{
+			GetComponent<Animator>().SetTrigger(STOP_ATTACK_TRIGGER);
+			GetComponent<Animator>().ResetTrigger(ATTACK_TRIGGER);
+			_target = null;
+			GetComponent<Mover>().Cancel();
 		}
 
 		private bool GetIsInRange()
 		{
-			return Vector3.Distance(transform.position, target.transform.position) < weaponRange;
+			return Vector3.Distance(transform.position, _target.transform.position) < currentWeapon.GetRange();
 		}
 
 		public bool CanAttack(GameObject combatTarget)
@@ -61,7 +65,7 @@ namespace RPG.Combat
 			}
 			Health combatTargetHealth = combatTarget.GetComponent<Health>();
 
-			if(combatTargetHealth!= null && !combatTargetHealth.IsAlive()) {
+			if(combatTargetHealth != null && !combatTargetHealth.IsAlive()) {
 				return false;
 			}
 			return true;
@@ -69,49 +73,39 @@ namespace RPG.Combat
 
 		public void Attack(GameObject combatTarget)
 		{
-			actionScheduler.StartAction(this);
-			target = combatTarget.GetComponent<Health>();
-
-		}
-
-		public void Cancel()
-		{
-			animator.SetTrigger(STOP_ATTACK_TRIGGER);
-			animator.ResetTrigger(ATTACK_TRIGGER);
-			target = null;
-			mover.Cancel();
+			GetComponent<ActionScheduler>().StartAction(this);
+			Debug.Log("A " + this.name);
+			_target = combatTarget.GetComponent<Health>();
+			Debug.Log(this.name + " attack " + _target.name);
 		}
 
 		private void AttackBehaviour()
 		{
-			transform.LookAt(target.transform);
-			if (timeSinceLastAttack > timeBetweenAttacks) {
+			transform.LookAt(_target.transform);
+			if (_timeSinceLastAttack > timeBetweenAttacks) {
 				TriggerAttack();
-				timeSinceLastAttack = 0;
+				_timeSinceLastAttack = 0;
 			}
 		}
 
 		private void TriggerAttack()
 		{
-			animator.ResetTrigger(STOP_ATTACK_TRIGGER);
-			animator.SetTrigger(ATTACK_TRIGGER);
+			GetComponent<Animator>().ResetTrigger(STOP_ATTACK_TRIGGER);
+			GetComponent<Animator>().SetTrigger(ATTACK_TRIGGER);
 		}
 
 		// Triggered by animation
 		private void Hit()
 		{
-			if (target != null) {
-				target.TakeDamage(weaponDamage);
+			if (_target != null) {
+				_target.TakeDamage(currentWeapon.GetDamage());
 			}
 		}
 
-		private void SpawnWeapon()
+		public void EquipWeapon(WeaponSO weapon)
 		{
-			if (weapon == null)
-			{
-				return;
-			}
-			weapon.Spawn(handTransform, animator);
+			currentWeapon = weapon;
+			weapon.Spawn(handTransform, GetComponent<Animator>());
 		}
 	}
 }

@@ -16,9 +16,8 @@ namespace RPG.Control {
 		private Fighter fighter;
 		private Health health;
 		private Mover mover;
-		private ActionScheduler actionScheduler;
 
-		Vector3 guardPosition;
+		Vector3 _guardPosition;
 		float timeSinceLastSawPlayer = Mathf.Infinity;
 		float timeSinceLastArrivedAtWaypoint = Mathf.Infinity;
 		private int currentWaypointIndex;
@@ -29,12 +28,11 @@ namespace RPG.Control {
 
 		private void Start()
 		{
-			guardPosition = transform.position;
+			_guardPosition = transform.position;
 			player = GameObject.FindWithTag(PLAYER_TAG);
 			fighter = GetComponent<Fighter>();
 			health = GetComponent<Health>();
 			mover = GetComponent<Mover>();
-			actionScheduler = GetComponent<ActionScheduler>();
 			currentWaypointIndex = 0;
 		}
 
@@ -64,12 +62,13 @@ namespace RPG.Control {
 
 		private void AttackBehaviour()
 		{
+			Debug.Log(this.name + " attack behaviour");
 			fighter.Attack(player);
 		}
 
 		private void PatrolBehaviour()
 		{
-			Vector3 nextPosition = guardPosition;
+			Vector3 nextPosition = _guardPosition;
 			if (patrolPath != null) {
 				if (AtWaypoint()) {
 					CycleWaypoint();
@@ -100,7 +99,7 @@ namespace RPG.Control {
 
 		private void SuspicionBehaviour()
 		{
-			actionScheduler.CancelCurrentAction();
+			GetComponent<ActionScheduler>().CancelCurrentAction();
 		}
 
 		private bool InAttackRangeOfPlayer()

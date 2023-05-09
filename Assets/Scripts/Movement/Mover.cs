@@ -15,13 +15,11 @@ namespace RPG.Movement {
 		[SerializeField] private float maxSpeed = 6f;
 		private NavMeshAgent _navMeshAgent;
 		private Animator _animator;
-		private ActionScheduler _actionScheduler;
 		private Health _health;
 
 		private void Start()
 		{
 			_animator = GetComponent<Animator>();
-			_actionScheduler = GetComponent<ActionScheduler>();
 			_health = GetComponent<Health>();
 		}
 
@@ -46,7 +44,7 @@ namespace RPG.Movement {
 
 		public void StartMoveAction(Vector3 destination, float speedFraction)
 		{
-			_actionScheduler.StartAction(this);
+			GetComponent<ActionScheduler>().StartAction(this);
 			MoveTo(destination, speedFraction);
 		}
 

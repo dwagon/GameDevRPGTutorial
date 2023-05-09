@@ -89,6 +89,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 30cf93deff988e74e88a144bd2127c18, type: 3}
+--- !u!4 &78364909904694787 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 481036, guid: 30cf93deff988e74e88a144bd2127c18, type: 3}
+  m_PrefabInstance: {fileID: 78364909905041679}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &494237860527937244
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -179,14 +184,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5263400122799786904}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e4e5df6ffeab245fd81e878fecac4a8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponRange: 1
   timeBetweenAttacks: 1
-  weaponDamage: 5
+  handTransform: {fileID: 78364909904694787}
+  weapon: {fileID: 11400000, guid: 904c90ed7598d443690edc170aea18d6, type: 2}
 --- !u!114 &3349143922343728403
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -213,7 +218,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chaseDistance: 5
+  patrolSpeedFraction: 0.3
   suspicionTime: 5
+  patrolPath: {fileID: 0}
+  waypointDwellTime: 2
 --- !u!114 &7857599016415181642
 MonoBehaviour:
   m_ObjectHideFlags: 0

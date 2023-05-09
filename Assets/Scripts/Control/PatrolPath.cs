@@ -10,11 +10,12 @@ namespace RPG.Control
 
 		private void OnDrawGizmos()
 		{
-		for(int i=0; i < transform.childCount; i++) {
+			for (int i = 0; i < transform.childCount; i++)
+			{
 				int j = GetNextIndex(i);
-			Gizmos.DrawSphere(GetWaypoint(i), waypointGizmoRadius);
-			Gizmos.DrawLine(GetWaypoint(i), GetWaypoint(j));
-			}	
+				Gizmos.DrawSphere(GetWaypoint(i), waypointGizmoRadius);
+				Gizmos.DrawLine(GetWaypoint(i), GetWaypoint(j));
+			}
 		}
 
 		public Vector3 GetWaypoint(int i)
