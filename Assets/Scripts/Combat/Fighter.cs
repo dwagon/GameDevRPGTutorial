@@ -13,7 +13,9 @@ namespace RPG.Combat
 		private const string ATTACK_TRIGGER = "attack";
 		private const string STOP_ATTACK_TRIGGER = "stopAttack";
 		[SerializeField] float timeBetweenAttacks;
-		[SerializeField] private Transform handTransform = null;
+		[FormerlySerializedAs("handTransform")] [SerializeField] private Transform rightHandTransform = null;
+		[SerializeField] private Transform leftHandTransform = null;
+
 		[FormerlySerializedAs("weapon")] [SerializeField] private WeaponSO defaultWeapon = null;
 		Health _target;
 		private float _timeSinceLastAttack = Mathf.Infinity;
@@ -105,7 +107,7 @@ namespace RPG.Combat
 		public void EquipWeapon(WeaponSO weapon)
 		{
 			currentWeapon = weapon;
-			weapon.Spawn(handTransform, GetComponent<Animator>());
+			weapon.Spawn(rightHandTransform, leftHandTransform, GetComponent<Animator>());
 		}
 	}
 }

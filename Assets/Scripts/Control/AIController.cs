@@ -62,7 +62,6 @@ namespace RPG.Control {
 
 		private void AttackBehaviour()
 		{
-			Debug.Log(this.name + " attack behaviour");
 			fighter.Attack(player);
 		}
 
