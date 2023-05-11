@@ -19,7 +19,6 @@ namespace RPG.Combat
             if (weapon != null)
             {
                 subject.GetComponent<Fighter>().EquipWeapon(weapon);
-                Destroy(subject);
             }
         }
     }

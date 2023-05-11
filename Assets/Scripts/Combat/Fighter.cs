@@ -33,9 +33,7 @@ namespace RPG.Combat
 			if (_target == null) {
 				return;
 			}
-			Debug.Log(this.name + ": Target =" + _target.name);
 			if(!_target.IsAlive()) {
-				Debug.Log(this.name + ": Target is dead");
 				return;
 			}
 			if (GetIsInRange()) {
@@ -76,9 +74,7 @@ namespace RPG.Combat
 		public void Attack(GameObject combatTarget)
 		{
 			GetComponent<ActionScheduler>().StartAction(this);
-			Debug.Log("A " + this.name);
 			_target = combatTarget.GetComponent<Health>();
-			Debug.Log(this.name + " attack " + _target.name);
 		}
 
 		private void AttackBehaviour()

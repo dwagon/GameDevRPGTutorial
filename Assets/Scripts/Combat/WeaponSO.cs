@@ -36,7 +36,6 @@ namespace RPG.Combat
 
         public float GetRange()
         {
-            Debug.Log("Get Range = " + weaponRange);
             return weaponRange;
         }
 
