@@ -95,9 +95,25 @@ namespace RPG.Combat
 		// Triggered by animation
 		private void Hit()
 		{
-			if (_target != null) {
+			if (_target == null)
+			{
+				return;
+			}
+
+			if (currentWeapon.HasProjectile())
+			{
+				currentWeapon.LaunchProjectile(rightHandTransform, leftHandTransform, _target);
+			}
+			else
+			{
 				_target.TakeDamage(currentWeapon.GetDamage());
 			}
+		}
+
+		// Triggered by animation
+		private void Shoot()
+		{
+			Hit();
 		}
 
 		public void EquipWeapon(WeaponSO weapon)

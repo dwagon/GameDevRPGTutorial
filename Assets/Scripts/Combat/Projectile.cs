@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using RPG.Core;
 using UnityEngine;
 
@@ -9,11 +7,12 @@ namespace RPG.Combat
     public class Projectile : MonoBehaviour
     {
         [SerializeField] private float speed = 1f;
-        [SerializeField] private Transform target = null;
+        private Health _target = null;
+        private float _damage = 0;
         
         private void Update()
         {
-            if (target is null)
+            if (_target is null)
             {
                 return;
             }
@@ -21,15 +20,29 @@ namespace RPG.Combat
             transform.Translate(speed * Time.deltaTime * Vector3.forward);
         }
 
+        public void SetTarget(Health target, float damage)
+        {
+            _target = target;
+            _damage = damage;
+        }
+
         private Vector3 GetAimLocation()
         {
-            CapsuleCollider targetCapsule = target.GetComponent<CapsuleCollider>();
-            if (targetCapsule == null)
+            CapsuleCollider targetCapsule = _target.GetComponent<CapsuleCollider>();
+            if (targetCapsule is null)
             {
-                return target.transform.position;
+                return _target.transform.position;
             }
 
-            return target.transform.position + Vector3.up * targetCapsule.height / 2;
+            return _target.transform.position + Vector3.up * targetCapsule.height / 2;
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            Health health = other.GetComponent<Health>();
+            if (_target != null && health != _target) return;
+            health.TakeDamage(_damage);
+            Destroy(gameObject);
         }
     }
 }
