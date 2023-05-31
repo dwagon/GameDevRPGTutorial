@@ -11,6 +11,7 @@ namespace RPG.Combat
             if (other.gameObject.CompareTag("Player"))
             {
                 Pickup(other.gameObject);
+                // Destroy(other.gameObject);
             }
         }
 
