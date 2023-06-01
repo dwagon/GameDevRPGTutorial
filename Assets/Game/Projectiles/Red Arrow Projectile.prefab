@@ -63,6 +63,10 @@ PrefabInstance:
       propertyPath: isHoming
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7649060570814910642, guid: f0f60390ab4fb457fb7249c1d11d43cc, type: 3}
+      propertyPath: hitEffect
+      value: 
+      objectReference: {fileID: 1486302497120416668, guid: 54070548f217b4ff0b500e9b9124a33d, type: 3}
     - target: {fileID: 8468359060759492660, guid: f0f60390ab4fb457fb7249c1d11d43cc, type: 3}
       propertyPath: m_Parameters.colorGradient.key0.b
       value: 0
